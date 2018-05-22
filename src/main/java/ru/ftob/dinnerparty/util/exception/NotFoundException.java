@@ -1,4 +1,4 @@
-package ru.ftob.dinnerparty.exception;
+package ru.ftob.dinnerparty.util.exception;
 
 public class NotFoundException extends RuntimeException {
     public NotFoundException(String message) {
