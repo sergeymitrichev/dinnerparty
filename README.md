@@ -7,7 +7,7 @@ Voting system for deciding where to have lunch. REST API based on Hibernate/Spri
 * :white_medium_square: Menu changes each day (admins do the updates)
 * :white_medium_square: Users can vote on which restaurant they want to have lunch at
 * :white_medium_square: Only one vote counted per user
-* :white_medium_square: If user votes again the same day:
+* :white_medium_square: If user users again the same day:
     - If it is before 11:00 we asume that he changed his mind.
     - If it is after 11:00 then it is too late, vote can't be changed
 * :white_medium_square: Each restaurant provides new menu each day.
@@ -20,7 +20,7 @@ Voting system for deciding where to have lunch. REST API based on Hibernate/Spri
 ### Users
 
 #### `GET /users` Read all users
-**For admin only**. Get all users or users filtered by name. 
+**For admin only**. Get all users. 
 
 Request:
 
@@ -28,27 +28,42 @@ Name          | Type                  | Default       | Description
 ------------  | -------------         | ------------- | -------------
 `page`        | `Integer`             | `1`           | Page number with search results
 `limit`       | `Integer`             | `20`          | Users per page 
-`filter`      | `Object (UserFilter)` |               | 
-`filter.name` | `String`              |               | User name 
 
 Response:
 
 Name                        | Type                          | Description
 ------------                | -------------                 | -------------
 `success`                   | `Boolean`                     | Request result (success/fail)
-`pagination`                | `Object (PaginationResponse)` | Users per page 
-`pagination.limit`          | `Integer`                     |  
-`pagination.totalCount`     | `Integer`                     | 
-`pagination.currentPage`    | `Integer`                     |  
-`pagination.totalPageCount` | `Integer`                     |  
+`pagination`                | `Object (PaginationResponse)` |  
+`pagination.limit`          | `Integer`                     | Users per page 
+`pagination.count`     | `Integer`                     | Number of users
+`pagination.page`    | `Integer`                     |  Current page
+`pagination.pages` | `Integer`                     |  Number of pages
 `users`                     | `Array of objects (User)`     |  
-`user.id`                   | `Integer`                     | 
-`user.name`                 | `String`                      | 
-`user.created.`             | `DateTime`                    |  
+`user.id`                   | `Integer`                     | User id
+`user.email`                 | `String`                      | User email
 
 
 #### `POST /users/create` Create new user
 **For admin only**.
+
+Request:
+
+Name          | Type                  | Default       | Description
+------------  | -------------         | ------------- | -------------
+`email`        | `String`             |            | New user email
+`password`       | `String`             |           | New user password
+
+Response:
+
+Name                        | Type                          | Description
+------------                | -------------                 | -------------
+`success`                   | `Boolean`                     | Request result (success/fail)
+`user`                     | `User`     |  
+`user.id`                   | `Integer`                     | User id
+`user.email`                 | `String`                      | User email
+
+
 #### `POST /users/update/{id}` Update exists user by id
 **For admin only**.
 #### `DELETE /users/delete/{id}` Delete user by id
@@ -72,16 +87,6 @@ Name                        | Type                          | Description
 #### `POST /restaurants/update/{id}` Update exists restaurant
 **For admin only**.
 #### `DELETE /restaurants/delete/{id}` Delete restaurant
-**For admin only**.
-
-### Menus
-#### `GET /menus` Read all menus
-**For admin only**.
-#### `POST /menus/create` Add new menu
-**For admin only**.
-#### `POST /menus/update/{id}` Update exists menu
-**For admin only**.
-#### `DELETE /menus/delete/{id}` Delete menu
 **For admin only**.
 
 ### Dishes 
