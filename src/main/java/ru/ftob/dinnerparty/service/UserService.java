@@ -1,6 +1,6 @@
 package ru.ftob.dinnerparty.service;
 
-import ru.ftob.dinnerparty.exception.NotFoundException;
+import ru.ftob.dinnerparty.util.exception.NotFoundException;
 import ru.ftob.dinnerparty.model.User;
 
 import java.util.List;

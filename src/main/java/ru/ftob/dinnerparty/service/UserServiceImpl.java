@@ -2,11 +2,14 @@ package ru.ftob.dinnerparty.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.ftob.dinnerparty.exception.NotFoundException;
+import org.springframework.util.Assert;
+import ru.ftob.dinnerparty.util.exception.NotFoundException;
 import ru.ftob.dinnerparty.model.User;
 import ru.ftob.dinnerparty.repository.UserRepository;
 
 import java.util.List;
+
+import static ru.ftob.dinnerparty.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,22 +23,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) {
+        Assert.notNull(user, "user must not be null");
         return repository.save(user);
     }
 
     @Override
     public void delete(int id) throws NotFoundException {
-        repository.delete(id);
+        checkNotFoundWithId(repository.delete(id), id);
     }
 
     @Override
     public User get(int id) throws NotFoundException {
-        return repository.get(id);
+        return checkNotFoundWithId(repository.get(id), id);
     }
 
     @Override
     public void update(User user) {
-        repository.save(user);
+        Assert.notNull(user, "user must not be null");
+        checkNotFoundWithId(repository.save(user), user.getId());
     }
 
     @Override

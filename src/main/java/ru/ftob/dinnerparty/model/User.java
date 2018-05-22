@@ -6,6 +6,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Date;
+import java.util.EnumSet;
 import java.util.Set;
 
 @Entity
@@ -34,6 +36,21 @@ public class User extends AbstractBaseEntity {
     private Set<Role> roles;
 
     public User() {
+    }
+
+    public User(Integer id, String email, String password, Role role, Role... roles) {
+        this(id, email, password, EnumSet.of(role, roles));
+    }
+
+    public User(Integer id, @Email @NotBlank @Size(max = 100) String email, @NotBlank @Size(min = 8, max = 100) String password, Set<Role> roles) {
+        super(id);
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
+
+    public User(User u) {
+        this(u.getId(), u.getEmail(), u.getPassword(), u.getRoles());
     }
 
     public String getEmail() {
