@@ -1,6 +1,6 @@
 package ru.ftob.dinnerparty.service;
 
-import ru.ftob.dinnerparty.exception.NotFoundException;
+import ru.ftob.dinnerparty.util.exception.NotFoundException;
 import ru.ftob.dinnerparty.model.Dish;
 
 import java.util.List;
@@ -15,6 +15,6 @@ public interface DishService {
 
     void update(Dish dish);
 
-    List<Dish> getAll(Integer lunchId);
+    List<Dish> getAll();
 
 }

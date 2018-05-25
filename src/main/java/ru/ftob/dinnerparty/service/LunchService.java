@@ -1,6 +1,8 @@
 package ru.ftob.dinnerparty.service;
 
-import ru.ftob.dinnerparty.exception.NotFoundException;
+import ru.ftob.dinnerparty.model.Restaurant;
+import ru.ftob.dinnerparty.model.User;
+import ru.ftob.dinnerparty.util.exception.NotFoundException;
 import ru.ftob.dinnerparty.model.Lunch;
 
 import java.time.LocalDate;
@@ -16,6 +18,13 @@ public interface LunchService {
 
     void update(Lunch lunch);
 
-    List<Lunch> getAll(LocalDate date);
+    List<Lunch> getAll();
 
+    List<Lunch> getByDate(LocalDate date);
+
+    Lunch gitWithVotes(int id) throws NotFoundException;
+
+    Lunch gitWithDishes(int id) throws NotFoundException;
+
+    void vote(Lunch lunch, User user, Restaurant restaurant) throws NotFoundException;
 }
