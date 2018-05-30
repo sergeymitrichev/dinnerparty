@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS user_roles;
-DROP TABLE IF EXISTS lunch_votes;
+DROP TABLE IF EXISTS restaurant_votes;
 DROP TABLE IF EXISTS dishes;
 DROP TABLE IF EXISTS restaurants;
 DROP TABLE IF EXISTS users;
@@ -57,13 +57,11 @@ CREATE TABLE dishes
 CREATE UNIQUE INDEX dishes_unique_name_restaurant_idx
   ON dishes (name, restaurant_id);
 
-CREATE TABLE lunch_votes
+CREATE TABLE restaurant_votes
 (
-  lunch_id      INTEGER NOT NULL,
   user_id       INTEGER NOT NULL,
-  CONSTRAINT lunch_votes_idx UNIQUE (lunch_id, user_id),
   restaurant_id INTEGER NOT NULL,
-  FOREIGN KEY (lunch_id) REFERENCES lunches (id) ON DELETE CASCADE,
+  CONSTRAINT restaurant_votes_idx UNIQUE (restaurant_id, user_id),
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
   FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE
 );

@@ -1,5 +1,5 @@
 DELETE FROM user_roles;
-DELETE FROM lunch_votes;
+DELETE FROM restaurant_votes;
 DELETE FROM users;
 DELETE FROM dishes;
 DELETE FROM restaurants;
@@ -34,6 +34,6 @@ INSERT INTO dishes (name, price, restaurant_id) VALUES
   ('shrimp', 35, 100005),
   ('water', 1, 100005);
 
-INSERT INTO lunch_votes (lunch_id, user_id, restaurant_id) VALUES
-  (100002, 100000, 100004),
-  (100002, 100001, 100004);
+INSERT INTO restaurant_votes (user_id, restaurant_id) VALUES
+  (100000, 100004),
+  (100001, 100004);
