@@ -1,9 +1,11 @@
 package ru.ftob.dinnerparty.service;
 
+import ru.ftob.dinnerparty.model.Lunch;
 import ru.ftob.dinnerparty.model.Restaurant;
+import ru.ftob.dinnerparty.model.User;
 import ru.ftob.dinnerparty.util.exception.NotFoundException;
 
-import java.util.List;
+import java.util.Set;
 
 public interface RestaurantService {
 
@@ -15,6 +17,8 @@ public interface RestaurantService {
 
     void update(Restaurant restaurant);
 
-    List<Restaurant> getAll();
+    Set<Restaurant> getAll(Lunch lunch);
+
+    void vote(User user, int id);
 
 }

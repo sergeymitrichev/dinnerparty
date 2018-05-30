@@ -1,8 +1,9 @@
 package ru.ftob.dinnerparty.repository;
 
+import ru.ftob.dinnerparty.model.Lunch;
 import ru.ftob.dinnerparty.model.Restaurant;
 
-import java.util.List;
+import java.util.Set;
 
 public interface RestaurantRepository {
 
@@ -12,5 +13,5 @@ public interface RestaurantRepository {
 
     Restaurant get(int id);
 
-    List<Restaurant> getAll();
+    Set<Restaurant> getAll(Lunch lunch);
 }

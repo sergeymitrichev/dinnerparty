@@ -2,13 +2,18 @@ package ru.ftob.dinnerparty.service;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import ru.ftob.dinnerparty.UserTestData;
 import ru.ftob.dinnerparty.model.Restaurant;
+import ru.ftob.dinnerparty.model.User;
 import ru.ftob.dinnerparty.util.exception.NotFoundException;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import static ru.ftob.dinnerparty.LunchTestData.LUNCH3;
+import static ru.ftob.dinnerparty.LunchTestData.LUNCH2;
 import static ru.ftob.dinnerparty.RestaurantTestData.*;
+import static ru.ftob.dinnerparty.UserTestData.ADMIN;
+import static ru.ftob.dinnerparty.UserTestData.USER;
 
 public class RestaurantServiceTest extends AbstractServiceTest {
 
@@ -29,10 +34,10 @@ public class RestaurantServiceTest extends AbstractServiceTest {
 
     @Test
     public void create() throws Exception {
-        Restaurant newRestaurant = new Restaurant(null, "Capital", LUNCH3);
+        Restaurant newRestaurant = new Restaurant(null, "Capital", LUNCH2);
         Restaurant created = service.create(newRestaurant);
         newRestaurant.setId(created.getId());
-        assertMatch(service.getAll(), newRestaurant, RESTAURANT4, RESTAURANT5);
+        assertMatch(service.getAll(LUNCH2), RESTAURANT4, RESTAURANT5, newRestaurant);
     }
 
     @Test
@@ -52,12 +57,26 @@ public class RestaurantServiceTest extends AbstractServiceTest {
     @Test
     public void delete() throws Exception {
         service.delete(RESTAURANT4_ID);
-        assertMatch(service.getAll(), RESTAURANT5);
+        assertMatch(service.getAll(LUNCH2), RESTAURANT5);
     }
 
     @Test
     public void getAll() throws Exception {
-        List<Restaurant> all = service.getAll();
+        Set<Restaurant> all = service.getAll(LUNCH2);
         assertMatch(all, RESTAURANT4, RESTAURANT5);
+    }
+    @Test
+    public void vote() throws Exception {
+        Set<User> votes = new HashSet();
+        votes.add(USER);
+        votes.add(ADMIN);
+        RESTAURANT4.setVotes(votes);
+        service.vote(USER, RESTAURANT5_ID);
+        Restaurant voted = service.get(RESTAURANT5_ID);
+        Restaurant revoked = service.get(RESTAURANT4_ID);
+
+        UserTestData.assertMatch(voted.getVotes(), USER);
+        UserTestData.assertMatch(revoked.getVotes(), ADMIN);
+
     }
 }

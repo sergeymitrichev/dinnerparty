@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import ru.ftob.dinnerparty.model.Dish;
+import ru.ftob.dinnerparty.model.Lunch;
 import ru.ftob.dinnerparty.model.Restaurant;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class DataJpaRestaurantRepositoryImpl implements RestaurantRepository {
@@ -36,8 +38,8 @@ public class DataJpaRestaurantRepositoryImpl implements RestaurantRepository {
     }
 
     @Override
-    public List<Restaurant> getAll() {
-        return crudRepository.findAll(SORT_NAME);
+    public Set<Restaurant> getAll(Lunch lunch) {
+        return crudRepository.findByLunch(lunch);
     }
 
 }

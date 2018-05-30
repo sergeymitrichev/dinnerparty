@@ -32,12 +32,4 @@ public interface CrudLunchRepository extends JpaRepository<Lunch, Integer> {
 
     List<Lunch> findByDate(LocalDate date);
 
-    @EntityGraph(attributePaths = {"lunch_votes"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT l FROM Lunch l WHERE l.id=?1")
-    Lunch getWithVotes(int id);
-
-    @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT l FROM Lunch l WHERE l.id=?1")
-    Lunch getWithDishes(int id);
-
 }

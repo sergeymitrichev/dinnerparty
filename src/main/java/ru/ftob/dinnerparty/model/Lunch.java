@@ -2,7 +2,11 @@ package ru.ftob.dinnerparty.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.lang.reflect.Array;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Set;
 
 @Entity
@@ -16,15 +20,8 @@ public class Lunch extends AbstractBaseEntity {
     @OneToMany(mappedBy = "lunch", fetch = FetchType.EAGER)
     private Set<Restaurant> restaurants;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "lunch_votes", joinColumns = {
-            @JoinColumn(name = "lunch_id", nullable = false, updatable = false) },
-            inverseJoinColumns = { @JoinColumn(name = "user_id",
-                    nullable = false, updatable = false) })
-    private Set<User> votes;
-
     @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
-    private boolean enabled;
+    private boolean enabled = true;
 
     public Lunch() {
     }
@@ -32,6 +29,25 @@ public class Lunch extends AbstractBaseEntity {
     public Lunch(Integer id, @NotNull LocalDate date) {
         super(id);
         this.date = date;
+    }
+
+    public Lunch(Integer id, @NotNull LocalDate date, Set<Restaurant> restaurants, boolean enabled) {
+        super(id);
+        this.date = date;
+        this.restaurants = restaurants;
+        this.enabled = enabled;
+    }
+
+    public Lunch(Integer id, @NotNull LocalDate date, boolean enabled, Restaurant restaurant, Restaurant... restaurants) {
+        super(id);
+        this.date = date;
+        this.enabled = enabled;
+        this.restaurants.add(restaurant);
+        Collections.addAll(this.restaurants, restaurants);
+    }
+
+    public Lunch(Lunch l) {
+        this(l.getId(), l.getDate(), l.getRestaurants(), l.isEnabled());
     }
 
     public LocalDate getDate() {
@@ -48,14 +64,6 @@ public class Lunch extends AbstractBaseEntity {
 
     public void setRestaurants(Set<Restaurant> restaurants) {
         this.restaurants = restaurants;
-    }
-
-    public Set<User> getVotes() {
-        return votes;
-    }
-
-    public void setVotes(Set<User> votes) {
-        this.votes = votes;
     }
 
     public boolean isEnabled() {

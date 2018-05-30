@@ -18,12 +18,4 @@ public interface LunchRepository {
     Lunch get(int id);
 
     List<Lunch> getAll();
-
-    List<Lunch> getByDate(LocalDate date);
-
-    Lunch gitWithVotes(int id);
-
-    Lunch gitWithDishes(int id);
-
-    boolean vote(Lunch lunch, User user, Restaurant restaurant);
 }

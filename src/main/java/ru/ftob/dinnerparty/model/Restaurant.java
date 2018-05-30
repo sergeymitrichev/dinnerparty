@@ -22,8 +22,8 @@ public class Restaurant extends AbstractBaseEntity {
     @OneToMany(mappedBy = "restaurant",  cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Dish> dishes;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "lunch_votes", joinColumns = {
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "restaurant_votes", joinColumns = {
             @JoinColumn(name = "restaurant_id", nullable = false, updatable = false) },
             inverseJoinColumns = { @JoinColumn(name = "user_id",
                     nullable = false, updatable = false) })

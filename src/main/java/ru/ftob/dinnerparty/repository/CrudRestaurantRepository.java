@@ -6,10 +6,12 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
+import ru.ftob.dinnerparty.model.Lunch;
 import ru.ftob.dinnerparty.model.Restaurant;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Transactional(readOnly = true)
 public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Integer> {
@@ -27,4 +29,6 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
 
     @Override
     List<Restaurant> findAll(Sort sort);
+
+    Set<Restaurant> findByLunch(Lunch lunch);
 }

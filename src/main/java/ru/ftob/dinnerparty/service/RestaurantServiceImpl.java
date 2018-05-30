@@ -2,15 +2,21 @@ package ru.ftob.dinnerparty.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ru.ftob.dinnerparty.model.Dish;
+import ru.ftob.dinnerparty.model.Lunch;
 import ru.ftob.dinnerparty.model.Restaurant;
+import ru.ftob.dinnerparty.model.User;
 import ru.ftob.dinnerparty.repository.DishRepository;
 import ru.ftob.dinnerparty.repository.RestaurantRepository;
 import ru.ftob.dinnerparty.util.exception.NotFoundException;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
+import static ru.ftob.dinnerparty.util.ValidationUtil.checkNotFound;
 import static ru.ftob.dinnerparty.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
@@ -46,8 +52,32 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public List<Restaurant> getAll() {
-        return repository.getAll();
+    public Set<Restaurant> getAll(Lunch lunch) {
+        return repository.getAll(lunch);
+    }
+
+    @Override
+    @Transactional
+    public void vote(User user, int id) {
+        Restaurant restaurant = get(id);
+        Lunch lunch = restaurant.getLunch();
+        checkNotFound(lunch.isEnabled(), "voting time is out");
+        Set<Restaurant> restaurants = getAll(lunch);
+
+        //restaurants.stream().forEach((r) -> r.getVotes().remove(user));
+
+        Iterator<Restaurant> iterator = restaurants.iterator();
+        while (iterator.hasNext()) {
+            Restaurant r = iterator.next();
+            if (!r.getVotes().contains(user)) {
+                continue;
+            }
+            r.getVotes().remove(user);
+            update(r);
+            break;
+        }
+        restaurant.getVotes().add(user);
+        update(restaurant);
     }
 
 }

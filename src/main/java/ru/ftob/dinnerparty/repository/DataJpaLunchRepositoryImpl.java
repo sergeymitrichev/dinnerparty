@@ -50,24 +50,4 @@ public class DataJpaLunchRepositoryImpl implements LunchRepository {
         return crudLunchRepository.findAll(SORT_DATE);
     }
 
-    @Override
-    public List<Lunch> getByDate(LocalDate date) {
-        return crudLunchRepository.findByDate(date);
-    }
-
-
-    @Override
-    public Lunch gitWithVotes(int id) {
-        return crudLunchRepository.getWithVotes(id);
-    }
-
-    @Override
-    public Lunch gitWithDishes(int id) {
-        return crudLunchRepository.getWithDishes(id);
-    }
-
-    @Override
-    public boolean vote(Lunch lunch, User user, Restaurant restaurant) {
-        return crudLunchRepository.save(lunch) != null && crudRestaurantRepository.save(restaurant) != null;
-    }
 }

@@ -20,11 +20,4 @@ public interface LunchService {
 
     List<Lunch> getAll();
 
-    List<Lunch> getByDate(LocalDate date);
-
-    Lunch gitWithVotes(int id) throws NotFoundException;
-
-    Lunch gitWithDishes(int id) throws NotFoundException;
-
-    void vote(Lunch lunch, User user, Restaurant restaurant) throws NotFoundException;
 }
